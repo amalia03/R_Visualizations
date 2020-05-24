@@ -4,20 +4,6 @@
 ###"phylum"= Phylum, "n"= number of phyla per family (found at a previous analysis), "family"= taxonomic family
 ###"acc"= accession id (signifying the different genes)
 
-###Before the plot, I first start with picking colors and creating some useful functions beforehand.
-###Since in our case there are four categories of data ( lumpfish contaminated, multiple phyla contaminated, both or neither), I needed to pick four colors so I poicked four I liked manually 
-br.col <- c("goldenrod2","cyan4", "tomato2", "dodgerblue")
-
-###Here a function will return the color from the array that fits with the numbered category of the variable n. N in this case has to have a numeric label for each group (in this case -1 for both failing", 0 for lumpfish, 1 for the sequences that pass the filters and >1 for multiple phyla). Obviously those categories can be changed depending on the situation
-color.picker.raw <- function(x){                                                                                     
-    if(x == -1 ){return(br.col[1])}                                                                            
-            else if(x == 0 ){return(br.col[2])}
-            else if(x == 1 ){return(br.col[3])}
-            else {return(br.col[4])}                                                                                               
-}
-###Use sapply to create a new dataset variable that includes that has the color for each category
-sk.ph$cols <- sapply(sk.ph$n, color.picker.raw)                                                                   
-
 ###Create a label for each category by using cut.
 sk.ph$category <- cut(sk.ph$n, c(-Inf, -1, 0, 1,Inf),
                       c("Failed mp+lf", "Failed lf", "Passed mp+lf","Failed mp"))  
@@ -95,10 +81,12 @@ phylo.bar <- function(p, leg.h=6, leg=TRUE){
                  border=(fam.freq$colors[i+1]))
         }
     }       
-    
     box()
+ ###Plotting at this point is finshed. Now comes the joint segment of the plotting of the legend if at the options it is marked as true ( the default)   
+ ###The legend will be plotted based on some quite arbitrary modular coordinates that have been working quite fine so far for the majority of the plots  
     if (leg==TRUE){    
-    ##To create the legend, it has to be modular..
+###for example, the I found that the best position to begin the plotted legend is at the position below
+        
         xl=eval(max(phyl$Freq-(max(phyl$Freq)/2.3)))
         yb =0
         xr=eval(max(phyl$Freq)+(0.1*max(phyl$Freq)))
@@ -110,15 +98,15 @@ phylo.bar <- function(p, leg.h=6, leg=TRUE){
              ybottom= yb ,
              xright=xr,
              ytop=yt,
-             col="white"
+            col="white"
              )
-        
         text(x=eval((xl+xr)/2), y=(yt+(0.25*yt)), labels="Alignment types", cex=1)
         
-    ##Get a unique color for each group
-        ##Edit, changed c input from phyl to phyl.all as the former would ignore more than one color on the same family
+    ##To get a unique color for each group
         c<- phyl.all[!duplicated(phyl.all$cols),]
+    ##And the categories    
         n<- length(unique(phyl$cols))
+        
         ##Give dimensions of the content area of the legend
         xlplus<- xl+(0.07*(xr-xl))
         xrplus<- xr-(0.07*(xr-xl))
@@ -136,3 +124,7 @@ phylo.bar <- function(p, leg.h=6, leg=TRUE){
         }
     }
 }
+
+###Examples of how to use the function
+sapply("Annelida", function(x) phylo.bar(x))
+sapply("Streptophyta", function(x) phylo.bar(x, leg.h=4))
