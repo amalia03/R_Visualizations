@@ -20,9 +20,9 @@ agg.plot<- function(taxa, aggroup="acc", bygroup="phylum", fun.type=length, inv=
     x<- x[order(x$freq, decreasing=TRUE),]
           
     if(nrow(x)%%2==0){
-    y<-rep(c("white","steelblue3"), round((nrow(x)/2),0))
+    y<-rep(c("white","grey"), round((nrow(x)/2),0))
     }else{
-        y<- rep(c("white","steelblue3"), round((nrow(x)+1)/2,0))
+        y<- rep(c("white","grey"), round((nrow(x)+1)/2,0))
         y <- y[-length(y)]
     }
     
@@ -35,7 +35,7 @@ agg.plot<- function(taxa, aggroup="acc", bygroup="phylum", fun.type=length, inv=
     
 ####plotting the ratiocolumn
 plot(x$pct, ylim=c(0,110),
-     xlim=c(0,180),
+     xlim=c(0,160),
      type="n", axes=F, ylab="", xlab="",
      xaxs="i", yaxs="i"
      )
@@ -53,8 +53,6 @@ plot(x$pct, ylim=c(0,110),
              70,
              (sum(x$pct[1:(i+1)])),
              col=as.character(x$col[i+1]),
-             ##             col=rep(c("white","steelblue3"), round((nrow(x)/2)-1,0)+1),
-             ##   border=as.character(x$col[i+1])
              border="black"
              )    
 #        text(x=0.5,y=sum(x$pct[1:(i+1)])-1, labels=x$phylum[i+1], cex=0.85, adj=-0.1, srt=90, col="white")
