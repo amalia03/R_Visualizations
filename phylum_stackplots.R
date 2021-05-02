@@ -24,7 +24,7 @@ agg.plot<- function(dataset, phyla, aggroup="acc", bygroup="phylum", fun.type=le
     sm.pct<- sm.pct[order(sm.pct$freq),]
     l.pct<- x[x$pct>3,]
     
-    ##Making the plotting space
+    ##Prepare the space for the plot:
     plot(x$pct, ylim=c(0,110),
      xlim=c(0,160),
      type="n", axes=F, ylab="", xlab="",
