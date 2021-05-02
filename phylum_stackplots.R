@@ -1,6 +1,6 @@
 agg.plot<- function(dataset, phyla, aggroup="acc", bygroup="phylum", fun.type=length, inv=FALSE, mt=""){
      
-   ###Create an dataset with the aggregate function that contains the number of alignments per phylum 
+   ###Create a dataset with the aggregate function that contains the number of alignments per phylum 
     x<- aggregate(dataset[dataset$phylum %in%  phyla, aggroup], by=list(dataset[dataset$phylum %in% phyla, bygroup]), fun.type)
     ###Name the table columns
     colnames(x)<- c("phylum","freq")
