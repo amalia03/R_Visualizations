@@ -4,10 +4,21 @@
 ###"phylum"= Phylum, "n"= number of phyla per family (found at a previous analysis), "family"= taxonomic family
 ###"acc"= accession id (signifying the different genes)
 
-###Create a label for each category by using cut.
+##If the color column is not available, here is how we wrote it in three steps:
+br.col <- c("goldenrod2","cyan4", "tomato2", "dodgerblue")
+
+color.picker.raw <- function(x){
+    if(x == -1 ){return(br.col[1])}
+            else if(x == 0 ){return(br.col[2])}
+            else if(x == 1 ){return(br.col[3])}
+            else {return(br.col[4])}                                                                                            \
+}
+##And finally apply the categirized colors as a separate column in the man dataset.
+sk.ph$cols <- sapply(sk.ph$n, color.picker.raw)
+###
 sk.ph$category <- cut(sk.ph$n, c(-Inf, -1, 0, 1,Inf),
                       c("Failed mp+lf", "Failed lf", "Passed mp+lf","Failed mp"))  
-    
+
 ###This is a useful function that will be used for the xaxis ticks so that there will always be a reasonable and legible amount of ticks, aka when values are 1-10 , the increments increase by 1, if above 50 they increase by 10 and anything in between , increase by 5.
     
 ticks <- function(x){
