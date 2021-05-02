@@ -46,6 +46,9 @@ phylo.bar <- function(p, leg.h=6, leg=TRUE){
     ###Then I order per frequency so that when they are plotted, they are sorted by number of alignments
     phyl <- phyl[order(phyl$Freq, decreasing=FALSE),]
     
+    ###Set the margins a bit:
+     par(mar=c(5, 8, 2, 2))
+
     ###Set the plotting stage
     plot(phyl$Freq, xlim=c(0,eval(max(phyl$Freq)+(0.1*max(phyl$Freq)))),
          ylim=c(0,nrow(phyl)+ 1) , ##Axes limits are the max number of frequencis for x-axis and number of family groups (or selected phylum rows) for xaxis
@@ -70,8 +73,7 @@ phylo.bar <- function(p, leg.h=6, leg=TRUE){
         sk.hom$n[sk.hom$n >=2] <- 2 ##This could be done before but regardless, for the multiple phyla category, the variable is changed from everything >1 to 2
         fam.freq=as.data.frame(table(sk.hom$n)) ##make a frequency table for each category
         colnames(fam.freq) <- c("id","freq")
-        phyl[phyl$family==fam,"Freq"] ###
-        ##You dont need a percent dumbass..
+        phyl[phyl$family==fam,"Freq"] ##
         ###Now in reference to each category (id), we create a dataframe with where each category has a designated color
         colindex <- data.frame("colors"=c("goldenrod2","cyan4","tomato2", "dodgerblue"),"id"=c(-1,0,1,2))
 
@@ -137,5 +139,5 @@ phylo.bar <- function(p, leg.h=6, leg=TRUE){
 }
 
 ###Examples of how to use the function
-sapply("Annelida", function(x) phylo.bar(x))
-sapply("Streptophyta", function(x) phylo.bar(x, leg.h=4))
+#sapply("Annelida", function(x) phylo.bar(x))
+#sapply("Streptophyta", function(x) phylo.bar(x, leg.h=4))
