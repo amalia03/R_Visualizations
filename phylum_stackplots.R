@@ -66,11 +66,11 @@ agg.plot<- function(dataset, phyla, aggroup="acc", bygroup="phylum", fun.type=le
     polygon(c(83,83),c(sum(l.pct$pct),100),border="darkgrey")
     polygon(c(83,88),c(base,base),border="darkgrey")
     
-    ###Add the text on the right hand size of all the phyla represented by smaller percentages in the correct order. 
+    ###Add the text on the right hand size of all the phyla represented by smaller percentages in the correct order, including the percentage associated with each phylum. 
     for (i in nrow(sm.pct):1){
         text(x=120,y=base-(i*3-3.4), labels=paste(sm.pct$phylum[i],",",round(sm.pct$pct[i],1),"%"), cex= 0.83)
     }
-###And finally for the main title, it will have the main title as it has been filled in the main command, and the number of entries.     
+    ###And finally for the main title, it will have the main title as it has been filled in the main command, and the number of entries.     
     text(x=72,y=105,labels=paste(mt,"\n","n=",sum(x$freq)), cex=0.88)
 
 }   
