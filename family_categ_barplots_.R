@@ -122,7 +122,3 @@ phylo.bar <- function(p, dataset leg.h=6, leg=TRUE){
         }
     }
 }
-
-###Examples of how to use the function
-#sapply("Annelida", function(x) phylo.bar(x))
-#sapply("Streptophyta", function(x) phylo.bar(x, leg.h=4))
