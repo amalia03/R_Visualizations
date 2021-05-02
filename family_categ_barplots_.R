@@ -4,21 +4,6 @@
 ###"phylum"= Phylum, "n"= number of phyla per family (found at a previous analysis), "family"= taxonomic family
 ###"acc"= accession id (signifying the different genes)
 
-##If the color column is not available, here is how we wrote it in three steps:
-br.col <- c("goldenrod2","cyan4", "tomato2", "dodgerblue")
-
-color.picker.raw <- function(x){
-    if(x == -1 ){return(br.col[1])}
-            else if(x == 0 ){return(br.col[2])}
-            else if(x == 1 ){return(br.col[3])}
-            else {return(br.col[4])}                                                                                            \
-}
-##And finally apply the categirized colors as a separate column in the man dataset.
-sk.ph$cols <- sapply(sk.ph$n, color.picker.raw)
-###
-sk.ph$category <- cut(sk.ph$n, c(-Inf, -1, 0, 1,Inf),
-                      c("Failed mp+lf", "Failed lf", "Passed mp+lf","Failed mp"))  
-
 ###This is a useful function that will be used for the xaxis ticks so that there will always be a reasonable and legible amount of ticks, aka when values are 1-10 , the increments increase by 1, if above 50 they increase by 10 and anything in between , increase by 5.
     
 ticks <- function(x){
@@ -30,11 +15,11 @@ ticks <- function(x){
 }
     
 ###Here we start with the plot function
-phylo.bar <- function(p, leg.h=6, leg=TRUE){
+phylo.bar <- function(p, dataset leg.h=6, leg=TRUE){
     ##where p stands for phylum, leg.h stands for legend height and leg stands for a legend being used
 ###Here we pick the phylum of interest. I would usually use the command below but I think grep would pick any string that contains the elements in general, or it didnt work otherwise.
     # phyl.all<- sk.bl.2[sk.bl.2$phylum == p,]
-    phyl.all<- sk.ph[grep(p, sk.ph$phylum),]
+    phyl.all<- dataset[grep(p, dataset$phylum),]
     
     ##First see how many species are there per family by aggregated the acc column per family(how many alignments we have per family)
     fam.ph<- aggregate(phyl.all$acc, by=list(phyl.all$family), length)
